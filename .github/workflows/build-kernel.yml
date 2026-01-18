@@ -70,11 +70,26 @@ jobs:
         echo "BUILD_TIME=$(TZ=Asia/Shanghai date "+%Y%m%d%H%M")" >> $GITHUB_ENV
         echo "DEVICE=$(echo ${{ env.KERNEL_CONFIG }} | sed 's!vendor/!!;s/_defconfig//;s/_user//;s/-perf//')" >> $GITHUB_ENV
         sudo apt-get update
-        sudo apt-get install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python2 python3
+        sudo apt-get install git automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python2 python3
+        sudo apt-get install ccache git-lfs gnupg imagemagick libelf-dev libncurses5-dev libsdl1.2-dev rsync adb fastboot libstdc++6 gcc-multilib
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
 
+    - name: Download LLVM
+      if: env.USE_LLVM == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace
+        mkdir LLVM
+        wget ${{ env.LLVM_LINK }}
+        if [ ${{ env.LLVM_USE_TARGZ }} = true ]; then
+          tar -C LLVM/ -zxvf ${{ env.LLVM_Files }}
+          ls
+        else
+          tar -C LLVM/ -xvJf ${{ env.LLVM_Files }}
+          ls
+        fi
+
     - name: Download Clang-aosp
-      if: env.USE_CUSTOM_CLANG != 'true'
+      if: env.USE_CUSTOM_CLANG != 'true' && env.USE_CLANG == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         mkdir clang-aosp
@@ -82,7 +97,7 @@ jobs:
         tar -C clang-aosp/ -zxvf clang-${{ env.CLANG_VERSION }}.tar.gz
 
     - name: Download Custom-Clang
-      if: env.USE_CUSTOM_CLANG == 'true'
+      if: env.USE_CUSTOM_CLANG == 'true' && env.USE_CLANG == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace
         if [[ ${{ env.CUSTOM_CLANG_SOURCE }} =~ git ]]; then
@@ -217,7 +232,8 @@ jobs:
         key: build-kernel-${{ env.DEVICE }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}
         max-size: 2G
 
-    - name: Build kernel
+    - name: Clang+GCC Build kernel
+      if: env.USE_CLANG == 'true' 
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
@@ -234,6 +250,23 @@ jobs:
             make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }}
         fi
 
+    - name: LLVM Build kernel
+      if: env.USE_LLVM == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        export LD_LIBRARY_PATH="${{ env.LLVM_DIRECTORY }}/lib64:$LD_LIBRARY_PATH"
+        export LD_LIBRARY_PATH="${{ env.LLVM_DIRECTORY }}/lib:$LD_LIBRARY_PATH"
+        export PATH="${{ env.LLVM_DIRECTORY }}/bin:$PATH"
+        export KBUILD_BUILD_HOST=Github-Action
+        export KBUILD_BUILD_USER=$(echo ${{ github.actor }} | tr A-Z a-z)
+        export CC="clang"
+        export LLVM=1
+        export LLVM_IAS=1
+        export CLANG_TRIPLE="aarch64-linux-gnu-"
+        export CROSS_COMPILE="aarch64-linux-gnu-"
+        make O=out ${{ env.KERNEL_CONFIG }}
+        make -j$(nproc --all) O=out
+    
     - name: Check a kernel output files
       run: |
        cd $GITHUB_WORKSPACE/kernel_workspace
