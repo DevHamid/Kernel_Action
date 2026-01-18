@@ -32,6 +32,12 @@ jobs:
         echo "ADD_LOCALVERSION_TO_FILENAME=$(cat $CONFIG_ENV | grep -w "ADD_LOCALVERSION_TO_FILENAME" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "EXTRA_CMDS=$(cat $CONFIG_ENV | grep -w "EXTRA_CMDS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
         echo "USE_CUSTOM_CLANG=$(cat $CONFIG_ENV | grep -w "USE_CUSTOM_CLANG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "USE_CLANG=$(cat $CONFIG_ENV | grep -w "USE_CLANG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "USE_LLVM=$(cat $CONFIG_ENV | grep -w "USE_LLVM" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "LLVM_LINK=$(cat $CONFIG_ENV | grep -w "LLVM_LINK" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "LLVM_USE_TARGZ=$(cat $CONFIG_ENV | grep -w "LLVM_USE_TARGZ" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "LLVM_Files=$(cat $CONFIG_ENV | grep -w "LLVM_Files" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
+        echo "LLVM_DIRECTORY=$(cat $CONFIG_ENV | grep -w "LLVM_DIRECTORY" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CLANG_SOURCE=$(cat $CONFIG_ENV | grep -w "CUSTOM_CLANG_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CLANG_BRANCH=$(cat $CONFIG_ENV | grep -w "CUSTOM_CLANG_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CMDS=$(cat $CONFIG_ENV | grep -w "CUSTOM_CMDS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
@@ -254,9 +260,9 @@ jobs:
       if: env.USE_LLVM == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        export LD_LIBRARY_PATH="${{ env.LLVM_DIRECTORY }}/lib64:$LD_LIBRARY_PATH"
-        export LD_LIBRARY_PATH="${{ env.LLVM_DIRECTORY }}/lib:$LD_LIBRARY_PATH"
-        export PATH="${{ env.LLVM_DIRECTORY }}/bin:$PATH"
+        export LD_LIBRARY_PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/lib64:$LD_LIBRARY_PATH"
+        export LD_LIBRARY_PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/lib:$LD_LIBRARY_PATH"
+        export PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/bin:$PATH"
         export KBUILD_BUILD_HOST=Github-Action
         export KBUILD_BUILD_USER=$(echo ${{ github.actor }} | tr A-Z a-z)
         export CC="clang"
