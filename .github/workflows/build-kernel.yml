@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    name: Build Kernel by ${{ github.actor }}
+    name: Build Kernel by LKGT
     runs-on: ubuntu-22.04
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
@@ -244,7 +244,7 @@ jobs:
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
         export KBUILD_BUILD_HOST=Github-Action
-        export KBUILD_BUILD_USER=$(echo ${{ github.actor }} | tr A-Z a-z)
+        export KBUILD_BUILD_USER=$(echo LKGT | tr A-Z a-z)
         if [ ! -z ${{ env.KSU_EXPECTED_SIZE }} ] && [ ! -z ${{ env.KSU_EXPECTED_HASH }} ]; then
           export KSU_EXPECTED_SIZE=${{ env.KSU_EXPECTED_SIZE }}
           export KSU_EXPECTED_HASH=${{ env.KSU_EXPECTED_HASH }}
@@ -264,7 +264,7 @@ jobs:
         export LD_LIBRARY_PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/lib:$LD_LIBRARY_PATH"
         export PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/bin:$PATH"
         export KBUILD_BUILD_HOST=Github-Action
-        export KBUILD_BUILD_USER=$(echo ${{ github.actor }} | tr A-Z a-z)
+        export KBUILD_BUILD_USER=$(echo LKGT | tr A-Z a-z)
         export CC="clang"
         export LLVM=1
         export LLVM_IAS=1
