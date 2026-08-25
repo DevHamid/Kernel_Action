@@ -1,0 +1,106 @@
+name: Kernel Verification
+
+on:
+  push:
+    branches:
+      - build-susfs-resukisu
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run consolidated verification
+        run: |
+          python3 <<'EOF'
+          import glob, os
+
+          # --- Hook checks ---
+          hook_checks = {
+              "fs/stat.c": ["ksu_handle_stat", "ksu_handle_newfstat_ret", "ksu_handle_fstat64_ret"],
+              "fs/open.c": ["ksu_handle_faccessat"],
+              "fs/exec.c": ["ksu_handle_execveat"],
+              "fs/read_write.c": ["ksu_handle_sys_read"],
+              "kernel/reboot.c": ["ksu_handle_sys_reboot"],
+              "drivers/input/input.c": ["ksu_handle_input_handle_event"],
+              "kernel/sys.c": ["ksu_handle_setresuid"],
+          }
+
+          # --- Defconfig flags ---
+          defconfig_flags = [
+              "CONFIG_KSU=y",
+              "CONFIG_KSU_MANUAL_HOOK=y",
+              "CONFIG_KSU_SUSFS=y",
+              "CONFIG_KALLSYMS=y",
+              "CONFIG_KALLSYMS_ALL=y",
+              "CONFIG_DEBUG_KERNEL=y",
+          ]
+
+          # --- SELinux export checks ---
+          selinux_checks = {
+              "security/selinux/selinuxfs.c": [
+                  "ssize_t (*write_op",
+                  "const struct file_operations sel_handle_status_ops",
+                  "DEFINE_MUTEX(sel_mutex)",
+                  "struct security_operations selinux_ops",
+              ],
+              "security/selinux/ss/services.c": [
+                  "struct page *selinux_status_page",
+                  "DEFINE_MUTEX(selinux_status_lock)",
+                  "DEFINE_RWLOCK(policy_rwlock)",
+                  "void security_dump_masked_av",
+                  "void context_struct_compute_av",
+              ],
+          }
+
+          errors = 0
+
+          # Check hooks
+          for file, hooks in hook_checks.items():
+              if not os.path.exists(file):
+                  print(f"[missing file] {file}")
+                  errors += 1
+                  continue
+              with open(file) as f:
+                  content = f.read()
+              for hook in hooks:
+                  if hook not in content:
+                      print(f"[missing] {hook} in {file}")
+                      errors += 1
+
+          # Check defconfigs
+          for cfg in glob.glob("arch/arm64/configs/vendor/*defconfig"):
+              with open(cfg) as f:
+                  lines = f.read().splitlines()
+              for flag in defconfig_flags:
+                  if not any(line.strip() == flag for line in lines):
+                      print(f"[missing] {flag} in {cfg}")
+                      errors += 1
+
+          # Check SELinux exports
+          for file, symbols in selinux_checks.items():
+              if not os.path.exists(file):
+                  print(f"[missing file] {file}")
+                  errors += 1
+                  continue
+              with open(file) as f:
+                  content = f.read()
+              for sym in symbols:
+                  if sym not in content:
+                      print(f"[missing] {sym} in {file}")
+                      errors += 1
+
+          if errors > 0:
+              print(f"Verification failed with {errors} issues.")
+              exit(1)
+          else:
+              print("All checks passed ✅")
+          EOF
