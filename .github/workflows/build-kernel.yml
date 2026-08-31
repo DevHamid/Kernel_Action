@@ -276,6 +276,7 @@ jobs:
       with:
         name: resolved-config
         path: kernel_workspace/android-kernel/out/.config
+        include-hidden-files: true
 
     - name: LLVM Build kernel
       if: env.USE_LLVM == 'true'
