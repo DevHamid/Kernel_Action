@@ -71,6 +71,15 @@ jobs:
       with:
         swap-size-gb: 15
 
+    - name: Install Build Dependencies
+      env:
+        DEBIAN_FRONTEND: noninteractive
+        NEEDRESTART_MODE: a
+      run: |
+        sudo apt-get update
+        sudo apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold"
+        sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev 
+
     - name: Setup build kernel environment
       run: |
         echo "TZ=Asia/Makassar" >> $GITHUB_ENV
