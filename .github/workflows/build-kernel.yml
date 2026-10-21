@@ -13,6 +13,9 @@ on:
         required: true
         default: 'master'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build Kernel by LKGT
@@ -309,6 +312,19 @@ jobs:
           kernel_workspace/android-kernel/build.log
           kernel_workspace/android-kernel/out/.config
         if-no-files-found: ignore
+
+    - name: Publish build log to build-logs branch
+      if: failure()
+      run: |
+        LOG=$GITHUB_WORKSPACE/kernel_workspace/android-kernel/build.log
+        [ -f "$LOG" ] || exit 0
+        mkdir -p /tmp/logrepo && cd /tmp/logrepo
+        git init -q -b build-logs
+        cp "$LOG" "build-${GITHUB_SHA:0:7}.log"
+        cp "$GITHUB_WORKSPACE/kernel_workspace/android-kernel/out/.config" "config-${GITHUB_SHA:0:7}.txt" 2>/dev/null || true
+        git add -A
+        git -c user.name=hermes -c user.email=hermes@local commit -q -m "build log ${GITHUB_SHA:0:7}"
+        git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" build-logs
 
     - name: Upload resolved .config
       uses: actions/upload-artifact@v4
