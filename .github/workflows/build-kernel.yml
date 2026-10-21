@@ -420,3 +420,15 @@ jobs:
       with:
         name: boot${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-${{ env.DEVICE }}-${{ env.BUILD_TIME }}
         path: kernel_workspace/boot.img
+    - name: Publish boot image to kbuilds branch
+      if: env.MAKE_BOOT_IMAGE_IS_OK == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace
+        mkdir -p /tmp/kb && cd /tmp/kb
+        git init -q -b kbuilds
+        cp "$GITHUB_WORKSPACE/kernel_workspace/boot.img" boot.img
+        cp "$GITHUB_WORKSPACE/kernel_workspace/android-kernel/out/arch/${{ env.ARCH }}/boot/${{ env.KERNEL_IMAGE_NAME }}" Image.gz-dtb
+        cp "$GITHUB_WORKSPACE/kernel_workspace/android-kernel/out/.config" config.txt
+        git add -A
+        git -c user.name=hermes -c user.email=hermes@local commit -q -m "build ${GITHUB_SHA:0:7}"
+        git push -q -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" kbuilds
