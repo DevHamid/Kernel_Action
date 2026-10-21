@@ -268,6 +268,12 @@ jobs:
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         grep -E "CONFIG_KALLSYMS|CONFIG_DEBUG_KERNEL" out/.config || echo "NOT FOUND"
+        {
+          echo '### pstore / debug config'
+          echo '```'
+          grep -E "^CONFIG_(PSTORE|PSTORE_|RAMOOPS|DETECT_HUNG_TASK|BOOTPARAM_HUNG|SOFTLOCKUP|DEBUG_KERNEL|PANIC_)" out/.config || echo "none"
+          echo '```'
+        } >> $GITHUB_STEP_SUMMARY
 
     - name: Compile kernel
       if: env.USE_CLANG == 'true'
@@ -276,11 +282,33 @@ jobs:
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
         export KBUILD_BUILD_HOST=Github-Action
         export KBUILD_BUILD_USER=$(echo LKGT | tr A-Z a-z)
+        set -o pipefail
         if [ ${{ env.ENABLE_CCACHE }} = true ]; then
-            make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }}
+            make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} 2>&1 | tee build.log
         else
-            make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }}
+            make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} 2>&1 | tee build.log
         fi
+
+    - name: Publish build errors
+      if: failure()
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+        {
+          echo '### build errors'
+          echo '```'
+          grep -nE "error:|fatal error|Error [0-9]+|undefined reference|No rule to make" build.log 2>/dev/null | head -80 || echo "no build.log"
+          echo '```'
+        } >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload build log on failure
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-log-failure
+        path: |
+          kernel_workspace/android-kernel/build.log
+          kernel_workspace/android-kernel/out/.config
+        if-no-files-found: ignore
 
     - name: Upload resolved .config
       uses: actions/upload-artifact@v4
