@@ -1,8 +1,5 @@
 name: Build Kernel
 on:
-  watch:
-    types: [started]
-
   push:
     branches: [Kernel_Action]
 
@@ -52,11 +49,6 @@ jobs:
         echo "EXTRA_CMDS=$(cat $CONFIG_ENV | grep -w "EXTRA_CMDS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
         echo "USE_CUSTOM_CLANG=$(cat $CONFIG_ENV | grep -w "USE_CUSTOM_CLANG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "USE_CLANG=$(cat $CONFIG_ENV | grep -w "USE_CLANG" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-        echo "USE_LLVM=$(cat $CONFIG_ENV | grep -w "USE_LLVM" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-        echo "LLVM_LINK=$(cat $CONFIG_ENV | grep -w "LLVM_LINK" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-        echo "LLVM_USE_TARGZ=$(cat $CONFIG_ENV | grep -w "LLVM_USE_TARGZ" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-        echo "LLVM_Files=$(cat $CONFIG_ENV | grep -w "LLVM_Files" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
-        echo "LLVM_DIRECTORY=$(cat $CONFIG_ENV | grep -w "LLVM_DIRECTORY" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CLANG_SOURCE=$(cat $CONFIG_ENV | grep -w "CUSTOM_CLANG_SOURCE" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CLANG_BRANCH=$(cat $CONFIG_ENV | grep -w "CUSTOM_CLANG_BRANCH" | head -n 1 | cut -d "=" -f 2)" >> $GITHUB_ENV
         echo "CUSTOM_CMDS=$(cat $CONFIG_ENV | grep -w "CUSTOM_CMDS" | head -n 1 | cut -d ":" -f 2)" >> $GITHUB_ENV
@@ -100,7 +92,6 @@ jobs:
         NEEDRESTART_MODE: a
       run: |
         sudo apt-get update
-        sudo apt-get upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" 
 
     - name: Setup build kernel environment
       run: |
@@ -109,23 +100,8 @@ jobs:
         echo "DEVICE=$(echo ${{ env.KERNEL_CONFIG }} | sed 's!vendor/!!;s/_defconfig//;s/_user//;s/-perf//')" >> $GITHUB_ENV
         sudo timedatectl set-timezone Asia/Makassar
         sudo apt-get update
-        sudo apt-get install git automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python2 python3
-        sudo apt-get install ccache git-lfs gnupg imagemagick libelf-dev libncurses5-dev libsdl1.2-dev rsync adb fastboot libstdc++6 gcc-multilib
+        sudo apt-get install git automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make optipng maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 lib32ncurses5-dev libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler python3 ccache git-lfs gnupg imagemagick libelf-dev libncurses5-dev libsdl1.2-dev rsync adb fastboot libstdc++6 gcc-multilib
         mkdir -p $GITHUB_WORKSPACE/kernel_workspace
-
-    - name: Download LLVM
-      if: env.USE_LLVM == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace
-        mkdir LLVM
-        wget ${{ env.LLVM_LINK }}
-        if [ ${{ env.LLVM_USE_TARGZ }} = true ]; then
-          tar -C LLVM/ -zxvf ${{ env.LLVM_Files }}
-          ls
-        else
-          tar -C LLVM/ -xvJf ${{ env.LLVM_Files }}
-          ls
-        fi
 
     - name: Download Clang-aosp
       if: env.USE_CUSTOM_CLANG != 'true' && env.USE_CLANG == 'true'
@@ -178,7 +154,7 @@ jobs:
         if [ ${{ env.USE_CUSTOM_GCC_64 }} = true ]; then
           if [[ ${{ env.CUSTOM_GCC_64_SOURCE }} =~ git ]]; then
               if [[ ${{ env.CUSTOM_GCC_64_SOURCE }} == *'.tar.gz' ]]; then
-                wget -O gcc-64.tar.gz ${{ env.CUSTOM_CLANG_SOURCE }}
+                wget -O gcc-64.tar.gz ${{ env.CUSTOM_GCC_64_SOURCE }}
                 mkdir gcc-64
                 tar -C gcc-64/ -zxvf gcc-64.tar.gz
               else
@@ -195,7 +171,7 @@ jobs:
         if [ ${{ env.USE_CUSTOM_GCC_32 }} = true ]; then
           if [[ ${{ env.CUSTOM_GCC_32_SOURCE }} =~ git ]]; then
               if [[ ${{ env.CUSTOM_GCC_32_SOURCE }} == *'.tar.gz' ]]; then
-                wget -O gcc-32.tar.gz ${{ env.CUSTOM_CLANG_SOURCE }}
+                wget -O gcc-32.tar.gz ${{ env.CUSTOM_GCC_32_SOURCE }}
                 mkdir gcc-32
                 tar -C gcc-32/ -zxvf gcc-32.tar.gz
               else
@@ -281,10 +257,10 @@ jobs:
       uses: hendrikmuhs/ccache-action@v1.2
       with:
         key: build-kernel-${{ env.DEVICE }}${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}
-        max-size: 2G
+        max-size: 4G
 
-    - name: Clang+GCC Build kernel
-      if: env.USE_CLANG == 'true' 
+    - name: Build kernel
+      if: env.USE_CLANG == 'true'
       run: |
         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
         export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
@@ -294,30 +270,12 @@ jobs:
           export KSU_EXPECTED_SIZE=${{ env.KSU_EXPECTED_SIZE }}
           export KSU_EXPECTED_HASH=${{ env.KSU_EXPECTED_HASH }}
         fi
-        make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} ${{ env.KERNEL_CONFIG }}
-
-    - name: Debug kallsyms config
-      run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        grep -E "CONFIG_KALLSYMS|CONFIG_DEBUG_KERNEL" out/.config || echo "NOT FOUND"
-        {
-          echo '### pstore / debug config'
-          echo '```'
-          grep -E "^CONFIG_(PSTORE|PSTORE_|RAMOOPS|DETECT_HUNG_TASK|BOOTPARAM_HUNG|SOFTLOCKUP|DEBUG_KERNEL|PANIC_)" out/.config || echo "none"
-          echo '```'
-        } >> $GITHUB_STEP_SUMMARY
-
-    - name: Compile kernel
-      if: env.USE_CLANG == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        export PATH=$GITHUB_WORKSPACE/kernel_workspace/clang-aosp/bin:$PATH
-        export KBUILD_BUILD_HOST=Github-Action
-        export KBUILD_BUILD_USER=$(echo LKGT | tr A-Z a-z)
         set -o pipefail
         if [ ${{ env.ENABLE_CCACHE }} = true ]; then
+            make O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} ${{ env.KERNEL_CONFIG }}
             make -j$(nproc --all) CC="ccache clang" O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} 2>&1 | tee build.log
         else
+            make O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} ${{ env.KERNEL_CONFIG }}
             make -j$(nproc --all) CC=clang O=out ARCH=${{ env.ARCH }} ${{ env.CUSTOM_CMDS }} ${{ env.EXTRA_CMDS }} ${{ env.GCC_64 }} ${{ env.GCC_32 }} 2>&1 | tee build.log
         fi
 
@@ -362,23 +320,6 @@ jobs:
         path: kernel_workspace/android-kernel/out/.config
         include-hidden-files: true
 
-    - name: LLVM Build kernel
-      if: env.USE_LLVM == 'true'
-      run: |
-        cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
-        export LD_LIBRARY_PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/lib64:$LD_LIBRARY_PATH"
-        export LD_LIBRARY_PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/lib:$LD_LIBRARY_PATH"
-        export PATH="$GITHUB_WORKSPACE/${{ env.LLVM_DIRECTORY }}/bin:$PATH"
-        export KBUILD_BUILD_HOST=Github-Action
-        export KBUILD_BUILD_USER=$(echo LKGT | tr A-Z a-z)
-        export CC="clang"
-        export LLVM=1
-        export LLVM_IAS=1
-        export CLANG_TRIPLE="aarch64-linux-gnu-"
-        export CROSS_COMPILE="aarch64-linux-gnu-"
-        make O=out ${{ env.KERNEL_CONFIG }}
-        make -j$(nproc --all) O=out
-    
     - name: Check a kernel output files
       run: |
        cd $GITHUB_WORKSPACE/kernel_workspace
