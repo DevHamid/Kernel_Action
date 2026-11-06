@@ -1,0 +1,634 @@
+_config_version: 52
+agent:
+  compression_threshold: 0.85
+  generate_titles: false
+  reasoning_effort: high
+model:
+  default: devhamidrobot
+  provider: custom
+  base_url: https://9router.devhamid.space/v1
+  api_key: ${HERMES_CUSTOM_9ROUTER_DEVHAMID_SPACE_API_KEY}
+onboarding:
+  seen:
+    busy_input_prompt: true
+    tool_progress_prompt: true
+gateway:
+  require_mention: true
+  standalone: true
+command_allowlist:
+  - copy/move file into sensitive credential/SSH/shell-rc path
+  - delete in root path
+  - execute_code
+  - git force push (rewrites remote history)
+  - git force push short flag (rewrites remote history)
+  - git reset --hard (destroys uncommitted changes)
+  - overwrite system file via redirection
+  - recursive delete
+  - script execution via -e/-c flag
+  - script execution via heredoc
+  - stop/restart hermes gateway (kills running agents)
+known_plugin_toolsets:
+  acp:
+    - homeassistant
+  webhook:
+    - homeassistant
+  cli:
+    - a2a
+    - spotify
+  telegram:
+    - a2a
+    - spotify
+_left_core_scoped:
+  - homeassistant
+_left_core_installed:
+  - homeassistant
+telemetry:
+  shared_metrics:
+    enabled: true
+    send: false
+    offer_version: 2
+multiplex_profiles: true
+messaging:
+  telegram:
+    channels:
+      - name: main
+        token: 8962617248:AAFsNGCtEISMT1sIsMD7Ne0QXC4tyMubCa4
+        allowed_users:
+          - 410848670
+      - name: secondary
+        token: 8660324510:AAGrahq5Kyon2feRsKKZyWW-ers90x3HBN4
+        allowed_users:
+          - 410848670
+    extra:
+      bots_require_mention: true
+require_mention: true
+telegram:
+  free_response_topics:
+    - "-1003628710660:478"
+  ignored_threads:
+    - 441
+    - 418
+  mention_patterns:
+    - '@devhamidrobot'
+    - '(?i)\bdev\b'
+    - '(?i)\bhello\s+guys?\b'
+    - '(?i)\bhi\s+guys?\b'
+    - '(?i)\bhello\s+dudes?\b'
+    - '(?i)\bhi\s+dudes?\b'
+    - '(?i)\bhey\s+guys?\b'
+    - '(?i)\bhey\s+dudes?\b'
+    - '(?i)\bhello\s+everyone\b'
+    - '(?i)\bhi\s+everyone\b'
+fallback_providers:
+  - provider: custom:9router
+    model: mercury-3/mercury-3
+    base_url: http://192.168.1.1:20128/v1
+plugins:
+  enabled:
+    - hermes-session-reset-policy
+    - progress-thread-redirect
+  disabled: []
+  load_timeout_seconds: 30
+session_reset:
+  mode: idle
+  idle_minutes: 180
+  notify: true
+approvals:
+  destructive_slash_confirm: false
+  mode: "off"
+providers:
+  9router:
+    api: http://192.168.1.1:20128/v1
+    name: 9router
+    key_env: HERMES_CUSTOM_192_168_1_1_20128_API_KEY
+    models:
+      cf/@cf/deepseek-ai/deepseek-r1-distill-qwen-32b: {}
+      cf/@cf/meta/llama-3.1-70b-instruct-fp8-fast: {}
+      cf/@cf/meta/llama-3.1-8b-instruct-awq: {}
+      cf/@cf/meta/llama-3.1-8b-instruct-fp8-fast: {}
+      cf/@cf/meta/llama-3.2-1b-instruct: {}
+      cf/@cf/meta/llama-3.2-3b-instruct: {}
+      cf/@cf/meta/llama-3.3-70b-instruct-fp8-fast: {}
+      cf/@cf/mistralai/mistral-small-3.1-24b-instruct: {}
+      cf/@cf/moonshotai/kimi-k2.5: {}
+      cf/@cf/moonshotai/kimi-k2.6: {}
+      cf/@cf/qwen/qwen2.5-coder-32b-instruct: {}
+      cf/@cf/qwen/qwq-32b: {}
+      cf/@cf/zai-org/glm-4.7-flash: {}
+      devhamidrobot: {}
+      gemini/gemini-3-flash-preview: {}
+      gemini/gemini-3.1-flash-lite-preview: {}
+      gemini/gemini-3.1-pro-preview: {}
+      gemini/gemini-3.5-flash-lite: {}
+      gemini/gemini-3.6-flash: {}
+      gemini/gemini-3.7-flash: {}
+      gemini/gemini-3.8-flash: {}
+      gemini/gemma-4-31b-it: {}
+      nvidia/deepseek-ai/deepseek-v4-flash: {}
+      nvidia/deepseek-ai/deepseek-v4-pro: {}
+      nvidia/minimaxai/minimax-m2.7: {}
+      nvidia/minimaxai/minimax-m3: {}
+      nvidia/moonshotai/kimi-k2.6: {}
+      nvidia/nemotron-3-ultra-550b-a55b: {}
+      nvidia/parakeet-ctc-1.1b-asr: {}
+      nvidia/z-ai/glm-5.2: {}
+      openrouter/google/gemma-4-31b-it:free: {}
+      openrouter/nvidia/nemotron-3-ultra-550b-a55b:free: {}
+      openrouter/qwen/qwen3.8-27b:free: {}
+      openrouter/typesafe/jev-1.13: {}
+      grip/minimax-m3: {}
+      grip/minimax-m2.7: {}
+      grip/kimi-k2.6: {}
+      grip/glm-5.2: {}
+      grip/glm-5.1: {}
+      grip/qwen-3.7-plus: {}
+      grip/gpt-5.6-luna: {}
+      grip/hy3: {}
+      grip/grok-4.5: {}
+      grip/gpt-5.6-sol: {}
+      grip/gpt-5.6-terra: {}
+      grip/claude-fable-5: {}
+      grip/claude-opus-5: {}
+      grip/claude-sonnet-4.6: {}
+      grip/kimi-k3: {}
+      grip/kimi-k2.7: {}
+      grip/deepseek-v4-flash: {}
+      grip/deepseek-v4-pro: {}
+      grip/claude-sonnet-5: {}
+      grip/mimo-v2.5: {}
+      grip/mimo-v2.5-pro: {}
+      grip/claude-haiku-4.5: {}
+      grip/muse-spark-1.2: {}
+      grip/gemini-3.1-pro: {}
+      grip/gpt-5.3-codex: {}
+      grip/glm-5.3: {}
+      grip/grok-4.6: {}
+      grip/glm-5.3-flash: {}
+      grip/hy4: {}
+      grip/claude-fable-5.1: {}
+      grip/muse-spark-1.3: {}
+      grip/gemini-3.8-flash: {}
+      grip/gpt-6-astra: {}
+      grip/deepseek-v4.1-flash: {}
+      grip/claude-opus-4.7: {}
+      grip/qwen-3.8-flash: {}
+      grip/claude-opus-4.8: {}
+      grip/glm-5.3-flashx: {}
+      grip/grok-4.7: {}
+      grip/claude-opus-5.5: {}
+      grip/gpt-6-sol: {}
+      grip/gpt-6-luna: {}
+      grip/mimo-v2.6-flash: {}
+      grip/mimo-v2.6-pro: {}
+      grip/claude-sonnet-5.5: {}
+      grip/qwen-3.8-max: {}
+      grip/gpt-6.1-sol: {}
+      grip/deepseek-v4.1-flash-sg: {}
+      grip-claude/minimax-m3: {}
+      grip-claude/minimax-m2.7: {}
+      grip-claude/kimi-k2.6: {}
+      grip-claude/glm-5.2: {}
+      grip-claude/glm-5.1: {}
+      grip-claude/qwen-3.7-plus: {}
+      grip-claude/gpt-5.6-luna: {}
+      grip-claude/hy3: {}
+      grip-claude/grok-4.5: {}
+      grip-claude/gpt-5.6-sol: {}
+      grip-claude/gpt-5.6-terra: {}
+      grip-claude/claude-fable-5: {}
+      grip-claude/claude-opus-5: {}
+      grip-claude/claude-sonnet-4.6: {}
+      grip-claude/kimi-k3: {}
+      grip-claude/kimi-k2.7: {}
+      grip-claude/deepseek-v4-flash: {}
+      grip-claude/deepseek-v4-pro: {}
+      grip-claude/claude-sonnet-5: {}
+      grip-claude/mimo-v2.5: {}
+      grip-claude/mimo-v2.5-pro: {}
+      grip-claude/claude-haiku-4.5: {}
+      grip-claude/muse-spark-1.2: {}
+      grip-claude/gemini-3.1-pro: {}
+      grip-claude/gpt-5.3-codex: {}
+      grip-claude/glm-5.3: {}
+      grip-claude/grok-4.6: {}
+      grip-claude/glm-5.3-flash: {}
+      grip-claude/hy4: {}
+      grip-claude/claude-fable-5.1: {}
+      grip-claude/muse-spark-1.3: {}
+      grip-claude/gemini-3.8-flash: {}
+      grip-claude/gpt-6-astra: {}
+      grip-claude/deepseek-v4.1-flash: {}
+      grip-claude/claude-opus-4.7: {}
+      grip-claude/qwen-3.8-flash: {}
+      grip-claude/claude-opus-4.8: {}
+      grip-claude/glm-5.3-flashx: {}
+      grip-claude/grok-4.7: {}
+      grip-claude/claude-opus-5.5: {}
+      grip-claude/gpt-6-sol: {}
+      grip-claude/gpt-6-luna: {}
+      grip-claude/mimo-v2.6-flash: {}
+      grip-claude/mimo-v2.6-pro: {}
+      grip-claude/claude-sonnet-5.5: {}
+      grip-claude/qwen-3.8-max: {}
+      grip-claude/gpt-6.1-sol: {}
+      grip-claude/deepseek-v4.1-flash-sg: {}
+      grip-gpt/minimax-m3: {}
+      grip-gpt/minimax-m2.7: {}
+      grip-gpt/kimi-k2.6: {}
+      grip-gpt/glm-5.2: {}
+      grip-gpt/glm-5.1: {}
+      grip-gpt/qwen-3.7-plus: {}
+      grip-gpt/gpt-5.6-luna: {}
+      grip-gpt/hy3: {}
+      grip-gpt/grok-4.5: {}
+      grip-gpt/gpt-5.6-sol: {}
+      grip-gpt/gpt-5.6-terra: {}
+      grip-gpt/claude-fable-5: {}
+      grip-gpt/claude-opus-5: {}
+      grip-gpt/claude-sonnet-4.6: {}
+      grip-gpt/kimi-k3: {}
+      grip-gpt/kimi-k2.7: {}
+      grip-gpt/deepseek-v4-flash: {}
+      grip-gpt/deepseek-v4-pro: {}
+      grip-gpt/claude-sonnet-5: {}
+      grip-gpt/mimo-v2.5: {}
+      grip-gpt/mimo-v2.5-pro: {}
+      grip-gpt/claude-haiku-4.5: {}
+      grip-gpt/muse-spark-1.2: {}
+      grip-gpt/gemini-3.1-pro: {}
+      grip-gpt/gpt-5.3-codex: {}
+      grip-gpt/glm-5.3: {}
+      grip-gpt/grok-4.6: {}
+      grip-gpt/glm-5.3-flash: {}
+      grip-gpt/hy4: {}
+      grip-gpt/claude-fable-5.1: {}
+      grip-gpt/muse-spark-1.3: {}
+      grip-gpt/gemini-3.8-flash: {}
+      grip-gpt/gpt-6-astra: {}
+      grip-gpt/deepseek-v4.1-flash: {}
+      grip-gpt/claude-opus-4.7: {}
+      grip-gpt/qwen-3.8-flash: {}
+      grip-gpt/claude-opus-4.8: {}
+      grip-gpt/glm-5.3-flashx: {}
+      grip-gpt/grok-4.7: {}
+      grip-gpt/claude-opus-5.5: {}
+      grip-gpt/gpt-6-sol: {}
+      grip-gpt/gpt-6-luna: {}
+      grip-gpt/mimo-v2.6-flash: {}
+      grip-gpt/mimo-v2.6-pro: {}
+      grip-gpt/claude-sonnet-5.5: {}
+      grip-gpt/qwen-3.8-max: {}
+      grip-gpt/gpt-6.1-sol: {}
+      grip-gpt/deepseek-v4.1-flash-sg: {}
+      shifuisrobot: {}
+      grip/claude-haiku-5.5: {}
+      grip/claude-opus-4.6: {}
+      grip-claude/claude-haiku-5.5: {}
+      grip-claude/claude-opus-4.6: {}
+      grip-gpt/claude-haiku-5.5: {}
+      grip-gpt/claude-opus-4.6: {}
+      Bansos-critical-thinking: {}
+      mercury-3/mercury-3: {}
+      trust/tig/step-5-preview: {}
+    models_discovered: true
+    default_model: trust/tig/step-5-preview
+  unlimited-devhamidrobot:
+    api: https://oao.clipora.buzz/v1
+    name: Unlimited devhamidrobot
+    key_env: HERMES_CUSTOM_OAO_CLIPORA_BUZZ_API_KEY
+    models:
+      auto-oao-jailbreak: {}
+      deepseek-v4-flash: {}
+      deepseek-v4-pro: {}
+      glm-5.2: {}
+      glm-5.3-flash: {}
+      grok-4.5: {}
+      kimi-k2.7-code: {}
+      mimo-v2.6-flash: {}
+      muse-spark-1.3-contributor: {}
+      nemotron-3-ultra: {}
+      nemotron-3.5-lightning: {}
+      qwen3.8-27b: {}
+      qwen3.8-flash: {}
+      deepseek-v4.1-flash: {}
+      deepseek-v4.1-flash-uncencored: {}
+      gemini-3.7-flash: {}
+      glm-5-3-flash-uncencored: {}
+      mimo-v2.6-flash-uncencored: {}
+      mimo-v2.6-pro: {}
+      step-5-preview: {}
+      step-5-preview-uncencored: {}
+    models_discovered: true
+    default_model: deepseek-v4.1-flash-uncencored
+delegation:
+  model: mercury-3/mercury-3
+  base_url: http://192.168.1.1:20128/v1
+browser:
+  cloud_provider: local
+computer_use:
+  backend: cua
+platform_toolsets:
+  cli:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - vision
+    - web
+    - yuanbao
+  telegram:
+    - a2a
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - file
+    - image_gen
+    - memory
+    - session_search
+    - skills
+    - terminal
+    - todo
+    - tts
+    - vision
+    - web
+    - yuanbao
+known_builtin_toolsets:
+  cli:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - spotify
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+  telegram:
+    - browser
+    - clarify
+    - code_execution
+    - computer_use
+    - connections
+    - context_engine
+    - cronjob
+    - delegation
+    - discord
+    - discord_admin
+    - file
+    - image_gen
+    - kanban
+    - memory
+    - session_search
+    - skills
+    - spotify
+    - stt
+    - terminal
+    - todo
+    - tts
+    - video
+    - video_gen
+    - vision
+    - web
+    - x_search
+    - yuanbao
+memory:
+  provider: usememos
+  usememos:
+    api_url: https://blog.devhamid.space
+    access_token: memos_pat_tDSepo9gE8UH3EwvHqTGvHa3zKK7yHI4
+    default_visibility: PRIVATE
+    default_space: Dev Hamid prjk
+display:
+  platforms:
+    telegram:
+      tool_progress: all
+  tool_progress_command: true
+auxiliary:
+  vision:
+    provider: custom:9router
+    model: openrouter/nvidia/nemotron-3.5-super-vl:free
+    base_url: http://192.168.1.1:20128/v1
+web:
+  provider_tier:
+    firecrawl: paid
+fallback_providers[0]:
+  provider: custom:9router
+  model: mercury-3/mercury-3
+  base_url: http://192.168.1.1:20128/v1
+
+dashboard:
+  basic_auth:
+    username: admin
+    password_hash: "scrypt$16384$8$1$HxryGXUoaA9qX+ZQdMwoEQ==$K4P9QZowc85h3EydsHKCfCH8sJKOjE8Xq3HkWlsLwOM="
+    secret: "uTjt3clpFhDE7yaYze8XctLjiscbpC9C3p7yVk8UFC8"
+  theme: default
+custom_providers:
+  - name: 9router-instabox
+    base_url: https://9router.devhamid.space/v1
+    key_env: HERMES_CUSTOM_9ROUTER_DEVHAMID_SPACE_API_KEY
+    model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+    models:
+      devhamidrobot: {}
+      shifuisrobot: {}
+      shifu-trust-backup: {}
+      OAO: {}
+      Bansos-critical-thinking: {}
+      tig: {}
+      S: {}
+      trust/tig/deepseek-v4.1-flash-UNCENSORED: {}
+      trust/tig/atria-dawn-preview: {}
+      trust/tig/deepseek-v4.1-flash: {}
+      trust/tig/claude-opus-5: {}
+      trust/tig/claude-haiku-5.5-UNCENSORED: {}
+      trust/tig/deepseek-v4.1-flash-Backup: {}
+      trust/tig/claude-haiku-5.5: {}
+      trust/tig/step-5-preview: {}
+      trust/tig/muse-spark-1.2-contributor: {}
+      trust/tig/muse-spark-1.3-contributor: {}
+      trust/tig/big-pickle: {}
+      trust/tig/mimo-v2.6-flash-UNCENSORED: {}
+      trust/tig/longcat-2.5-preview: {}
+      trust/tig/space-bunny: {}
+      trust/tig/nemotron-3-ultra-UNCENSORED: {}
+      trust/tig/muse-spark-1.3-contributor-UNCENSORED: {}
+      trust/tig/HACK-NASA: {}
+      trust/tig/nemotron-3-ultra: {}
+      trust/tig/claude-opus-5.5: {}
+      trust/tig/cat-jam: {}
+      trust/tig/longcat-2-5-preview-UNCENSORED: {}
+      trust/tig/big-pickle-UNCENSORED: {}
+      trust/tig/step-5-preview-UNCENSORED: {}
+      trust/tig/deepseek-v4-1-flash-UNRESTRICTED: {}
+      trust/tig/glm-5-3-flash-UNCENSORED: {}
+      trust/tig/nemotron-3-5-super-V1: {}
+      trust/tig/beam: {}
+      trust/tig/exo: {}
+      trust/tig/step-3.7-flash: {}
+      trust/tig/north-mini-code: {}
+      trust/tig/grok-4.6: {}
+      trust/tig/grok-4.7: {}
+      trust/tig/qwen3.8-27b: {}
+      trust/tig/deepseek-unrestricted: {}
+      trust/tig/step-5-unrestricted: {}
+      trust/tig/step-3.7-unrestricted: {}
+      trust/tig/step-3.5-flash-2603: {}
+      trust/tig/step-3.5-flash: {}
+      trust/tig/auto: {}
+      trust/tig/xing4.0-29b-a4b: {}
+      trust/tig/ling-3.1-flash-1019: {}
+      trust/tig/deepseek-v4.1-flash-1017-q: {}
+      trust/tig/nemotron-3-ultra-550b-a55b: {}
+      trust/tig/dots-3-note-preview: {}
+      trust/tig/minimax-m2.7: {}
+      openrouter/typesafe/jev-1.13: {}
+      openrouter/qwen/qwen3.8-27b:free: {}
+      openrouter/nvidia/nemotron-3-ultra-550b-a55b:free: {}
+      openrouter/google/gemma-4-31b-it:free: {}
+      openrouter/openrouter/free: {}
+      openrouter/nvidia/nemotron-3.5-super-vl:free: {}
+      openrouter/nvidia/nemotron-3.5-lightning:free: {}
+      openrouter/nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free: {}
+      openrouter/minimax/minimax-m3.1-flash:free: {}
+      openrouter/google/gemma-4-26b-a4b-it:free: {}
+      openrouter/cohere/north-mini-code:free: {}
+      kr/auto: {}
+      kr/auto-thinking: {}
+      kr/claude-sonnet-4.5: {}
+      kr/claude-sonnet-4.5-thinking: {}
+      kr/claude-sonnet-4.5-agentic: {}
+      kr/claude-sonnet-4.5-thinking-agentic: {}
+      kr/claude-haiku-4.5: {}
+      kr/claude-haiku-4.5-thinking: {}
+      kr/claude-haiku-4.5-agentic: {}
+      kr/claude-haiku-4.5-thinking-agentic: {}
+      kr/deepseek-3.2: {}
+      kr/deepseek-3.2-thinking: {}
+      kr/deepseek-3.2-agentic: {}
+      kr/deepseek-3.2-thinking-agentic: {}
+      kr/minimax-m2.5: {}
+      kr/minimax-m2.5-thinking: {}
+      kr/minimax-m2.5-agentic: {}
+      kr/minimax-m2.5-thinking-agentic: {}
+      kr/minimax-m2.1: {}
+      kr/minimax-m2.1-thinking: {}
+      kr/minimax-m2.1-agentic: {}
+      kr/minimax-m2.1-thinking-agentic: {}
+      kr/glm-5: {}
+      kr/glm-5-thinking: {}
+      kr/glm-5-agentic: {}
+      kr/glm-5-thinking-agentic: {}
+      kr/qwen3-coder-next: {}
+      kr/qwen3-coder-next-thinking: {}
+      kr/qwen3-coder-next-agentic: {}
+      kr/qwen3-coder-next-thinking-agentic: {}
+      gemini/gemini-4-argon: {}
+      gemini/gemini-3.8-flash: {}
+      gemini/gemini-3.7-flash: {}
+      gemini/gemini-3.6-flash: {}
+      gemini/gemini-3.5-flash-lite: {}
+      gemini/gemini-3.1-pro-preview: {}
+      gemini/gemini-3.1-flash-lite-preview: {}
+      gemini/gemini-3-flash-preview: {}
+      gemini/gemma-4-31b-it: {}
+      mercury-3/mercury-2: {}
+      mercury-3/mercury-2.5: {}
+      mercury-3/mercury-3: {}
+      mercury-3/mercury-decide: {}
+      nvidia/minimaxai/minimax-m2.7: {}
+      nvidia/minimaxai/minimax-m3: {}
+      nvidia/z-ai/glm-5.2: {}
+      nvidia/deepseek-ai/deepseek-v4-pro: {}
+      nvidia/deepseek-ai/deepseek-v4-flash: {}
+      nvidia/moonshotai/kimi-k2.6: {}
+      nvidia/nemotron-3-ultra-550b-a55b: {}
+      nvidia/parakeet-ctc-1.1b-asr: {}
+      nvidia/nvidia-: {}
+      cf/@cf/cloudflare/clef-flash: {}
+      cf/@cf/meta/llama-3.2-1b-instruct: {}
+      cf/@cf/meta/llama-3.2-3b-instruct: {}
+      cf/@cf/meta/llama-3.1-8b-instruct-fp8-fast: {}
+      cf/@cf/meta/llama-3.1-8b-instruct-awq: {}
+      cf/@cf/mistralai/mistral-small-3.1-24b-instruct: {}
+      cf/@cf/meta/llama-3.1-70b-instruct-fp8-fast: {}
+      cf/@cf/meta/llama-3.3-70b-instruct-fp8-fast: {}
+      cf/@cf/deepseek-ai/deepseek-r1-distill-qwen-32b: {}
+      cf/@cf/moonshotai/kimi-k2.5: {}
+      cf/@cf/moonshotai/kimi-k2.6: {}
+      cf/@cf/zai-org/glm-4.7-flash: {}
+      cf/@cf/qwen/qwq-32b: {}
+      cf/@cf/qwen/qwen2.5-coder-32b-instruct: {}
+      cbai/glm-5.2: {}
+      cbai/glm-5.1: {}
+      cbai/glm-5.0: {}
+      cbai/glm-5.0-turbo: {}
+      cbai/glm-5v-turbo: {}
+      cbai/glm-4.7: {}
+      cbai/minimax-m3: {}
+      cbai/minimax-m2.7: {}
+      cbai/kimi-k2.7: {}
+      cbai/kimi-k2.6: {}
+      cbai/kimi-k2.5: {}
+      cbai/hy3-preview: {}
+      cbai/deepseek-v4-pro: {}
+      cbai/deepseek-v4.1-flash: {}
+      cbai/deepseek-v3-2-volc: {}
+      bpm/seed-2-0-pro-260328: {}
+      bpm/seed-2-0-code-preview-260328: {}
+      bpm/seed-2-0-mini-260215: {}
+      bpm/seed-2-0-lite-260228: {}
+      bpm/kimi-k2-thinking-251104: {}
+      bpm/glm-4-7-251222: {}
+      bpm/gpt-oss-120b-250805: {}
+      qd/ultimate: {}
+      qd/auto: {}
+      qd/performance: {}
+      qd/efficient: {}
+      qd/lite: {}
+      qd/qmodel_38max: {}
+      qd/qmodel_latest: {}
+      qd/qmodel: {}
+      qd/qfmodel: {}
+      qd/kmodel_latest: {}
+      qd/kmodel: {}
+      qd/gmodel: {}
+      qd/gfmodel: {}
+      qd/dmodel: {}
+      qd/dfmodel: {}
+      qd/mmodel: {}
+    models_discovered: true
