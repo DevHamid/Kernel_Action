@@ -1,0 +1,567 @@
+{
+  "jobs": [
+    {
+      "id": "55b2409a9638",
+      "name": "iPhone 13+ Minus Price Watch Indonesia",
+      "prompt": "Load the product-price-monitor skill. Watch used iPhone 13/13 Pro or dynamic-island iPhones (14 Pro/15) sold as minus (broken screen, iCloud clean, no FaceID, dead pixel) under 3,500,000 IDR on Indonesian marketplaces. USE web_search FIRST for each site (Tokopedia, Shopee, OLX). Then web_extract the Tokopedia and OLX listing URLs. Shopee page extraction is blocked by an SSRF guard — use its search-result snippets for prices instead; never fail the run because of Shopee's block. Compare against the baseline. If a new matching deal appears or price drops below 3.5M IDR, report item, condition, price, and exact link. Otherwise stay silent. EXCLUDE any bypass, wifi-only, iCloud-lock, or permanent simlock units. ONLY normal cellular units with minor physical minus (LCD crack, housing dent, broken backglass) under Rp3.5M. DEAD LISTING: https://biggo.id/s/iphone%2013%20minus (iPhone 13 128GB Minus, Rp3.000.000, seller Lexyystore, listing id 122132484/46269665078) is SOLD/AWAY — treat it as a dead listing, never report or re-alert on it.",
+      "skills": [
+        "product-price-monitor"
+      ],
+      "skill": "product-price-monitor",
+      "model": null,
+      "provider": null,
+      "base_url": "https://9router.devhamid.space/v1",
+      "script": null,
+      "no_agent": false,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 720,
+        "display": "every 720m"
+      },
+      "schedule_display": "every 720m",
+      "repeat": {
+        "times": null,
+        "completed": 71
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-04T08:22:26.909418+00:00",
+      "next_run_at": "2026-11-06T20:16:52.157040+00:00",
+      "last_run_at": "2026-11-06T08:16:52.157040+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: Cron job '55b2409a9638' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint.",
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "failure_streak": 1,
+      "deliver": "telegram:-1003628710660:10669",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T08:16:47.805359+00:00",
+        "dispatched_at": "2026-11-06T08:16:51.326196+00:00",
+        "lateness_seconds": 3.5,
+        "kind": "on_time"
+      },
+      "fire_claim": null,
+      "last_failure": {
+        "at": "2026-11-06T08:16:52.157040+00:00",
+        "detail": "RuntimeError: Cron job '55b2409a9638' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint."
+      },
+      "canonical_completions": [
+        "51b0d73d2157436a94609bc9b7545433"
+      ]
+    },
+    {
+      "id": "f58dd2030538",
+      "name": "Xiaomi 15T 15T Pro Minus Price Watch Indonesia",
+      "prompt": "Load the product-price-monitor skill. Search Tokopedia, Shopee, and OLX for used Xiaomi 15T or Xiaomi 15T Pro sold as 'minus' (e.g. broken screen, bootloop, minor board issues) under 4,000,000 IDR. Compare against the baseline price. If a new matching deal appears or price drops below 4M IDR, report the item, condition, price, and exact link. Otherwise, stay silent. CRITICAL: The listing https://shopee.co.id/product/164504875/55216276630 (Xiaomi 15T 12/512 minus lcd pecah, Rp1.700.000, seller dhealwi73) has a CLOSED store — treat it as a dead listing, never report or re-alert on it. CRITICAL: Write all temporary files and helper scripts to /opt/data/cache/scratch/ — never use /tmp or other directories.",
+      "skills": [
+        "product-price-monitor"
+      ],
+      "skill": "product-price-monitor",
+      "model": null,
+      "provider": null,
+      "base_url": "https://9router.devhamid.space/v1",
+      "script": null,
+      "no_agent": false,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 720,
+        "display": "every 720m"
+      },
+      "schedule_display": "every 720m",
+      "repeat": {
+        "times": null,
+        "completed": 68
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-04T08:25:09.730375+00:00",
+      "next_run_at": "2026-11-06T20:16:52.214450+00:00",
+      "last_run_at": "2026-11-06T08:16:52.214450+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: Cron job 'f58dd2030538' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint.",
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "failure_streak": 4,
+      "deliver": "telegram:-1003628710660:10669",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T08:16:45.829783+00:00",
+        "dispatched_at": "2026-11-06T08:16:51.326196+00:00",
+        "lateness_seconds": 5.5,
+        "kind": "on_time"
+      },
+      "fire_claim": null,
+      "last_failure": {
+        "at": "2026-11-06T08:16:52.214450+00:00",
+        "detail": "RuntimeError: Cron job 'f58dd2030538' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint."
+      },
+      "canonical_completions": [
+        "01c7faab4ddf43fe925f03f8aa27cf9f"
+      ]
+    },
+    {
+      "id": "72b0feeab47d",
+      "name": "notes-to-voice-bridge",
+      "prompt": "Run the notes-to-voice bridge worker: read new TEXT notes in Knowledge Notes (topic 28) and post each as a Telegram voice note to Transcription Notes (topic 52) via Gemini TTS.",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "transcription_worker.py",
+      "no_agent": true,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/2 * * * *",
+        "display": "*/2 * * * *"
+      },
+      "schedule_display": "*/2 * * * *",
+      "repeat": {
+        "times": null,
+        "completed": 18200
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-08T00:57:20.684592+00:00",
+      "next_run_at": "2026-11-06T09:22:00+00:00",
+      "last_run_at": "2026-11-06T09:20:52.498922+00:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "failure_streak": 0,
+      "deliver": "local",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T09:20:00+00:00",
+        "dispatched_at": "2026-11-06T09:20:51.325919+00:00",
+        "lateness_seconds": 51.3,
+        "kind": "on_time"
+      },
+      "fire_claim": null,
+      "last_failure": {
+        "at": "2026-11-05T23:24:25.342672+00:00",
+        "detail": "Script exited with code -15"
+      }
+    },
+    {
+      "id": "8c7dd0b77fc0",
+      "name": "POCO X5 5G Minus Price Watch Indonesia",
+      "prompt": "Load the product-price-monitor skill. Search Tokopedia, Shopee, and OLX for used POCO X5 5G sold as 'minus' (e.g. broken/cracked screen, housing dent, broken backglass, no fingerprint, weak battery, minus pemakaian) under 1,000,000 IDR. Compare against the baseline price. If a new matching deal appears or price drops below 1M IDR, report the item, condition, price, and exact link. Otherwise, stay silent. ONLY physical/functional minus units; EXCLUDE scam listings, parts-only (LCD only, mesin only), and iCloud/bypass equivalents (Mi account locked units excluded unless clean). Focus Indonesia market. DEAD LISTING: https://shopee.co.id/product/292635272/44661657598 (POCO X5 5G MINUS LCD MESIN NORMAL, Rp900.000) is SOLD/AWAY — treat it as a dead listing, never report or re-alert on it. DEAD LISTING: https://shopee.co.id/product/146487789/40729156239 (Poco X5 5G minus lcd gambling, Rp350.000) is SOLD/AWAY — treat it as a dead listing, never report or re-alert on it.",
+      "skills": [
+        "product-price-monitor"
+      ],
+      "skill": "product-price-monitor",
+      "model": null,
+      "provider": null,
+      "base_url": "https://9router.devhamid.space/v1",
+      "script": null,
+      "no_agent": false,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 720,
+        "display": "every 720m"
+      },
+      "schedule_display": "every 720m",
+      "repeat": {
+        "times": null,
+        "completed": 51
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-11T00:26:53.602948+00:00",
+      "next_run_at": "2026-11-06T20:16:52.278631+00:00",
+      "last_run_at": "2026-11-06T08:16:52.278631+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: Cron job '8c7dd0b77fc0' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint.",
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": {
+        "at": "2026-11-06T08:16:52.278631+00:00",
+        "detail": "RuntimeError: Cron job '8c7dd0b77fc0' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint."
+      },
+      "failure_streak": 4,
+      "deliver": "telegram:-1003628710660:10669",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "fire_claim": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T08:16:47.842270+00:00",
+        "dispatched_at": "2026-11-06T08:16:51.326196+00:00",
+        "lateness_seconds": 3.5,
+        "kind": "on_time"
+      },
+      "canonical_completions": [
+        "d81d02d7c8f44dbc90ab75867aba3f3d"
+      ]
+    },
+    {
+      "id": "76c97b4a6af8",
+      "name": "Redmi Note 11 Pro 5G Minus Price Watch Indonesia",
+      "prompt": "Load the product-price-monitor skill. Search Tokopedia, Shopee, and OLX for used Redmi Note 11 Pro 5G sold as 'minus' (broken LCD, dead machine, housing crack, dead wifi, FRP, iCloud equivalent, minus pemakaian) under 1,000,000 IDR. Compare against baseline price. If a matching deal appears or price drops below 1M IDR, report item, condition, price, and exact link. Otherwise stay silent. Exclude scam listings and parts-only (LCD only). Focus Indonesia market.\n\nDEAD LISTING: https://shopee.co.id/product/942736903/26416543812 (REDMI NOTE 11 PRO 5G minus fasboot seperti video, Rp700.000, seller DinSayCell) is SOLD/AWAY — treat it as a dead listing, never report or re-alert on it.",
+      "skills": [
+        "product-price-monitor"
+      ],
+      "skill": "product-price-monitor",
+      "model": null,
+      "provider": null,
+      "base_url": "https://9router.devhamid.space/v1",
+      "script": null,
+      "no_agent": false,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 720,
+        "display": "every 720m"
+      },
+      "schedule_display": "every 720m",
+      "repeat": {
+        "times": null,
+        "completed": 50
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-11T12:28:20.303090+00:00",
+      "next_run_at": "2026-11-06T20:16:52.301088+00:00",
+      "last_run_at": "2026-11-06T08:16:52.301088+00:00",
+      "last_status": "error",
+      "last_error": "RuntimeError: Cron job '76c97b4a6af8' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint.",
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": {
+        "at": "2026-11-06T08:16:52.301088+00:00",
+        "detail": "RuntimeError: Cron job '76c97b4a6af8' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint."
+      },
+      "failure_streak": 4,
+      "deliver": "telegram:-1003628710660:10669",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "fire_claim": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T08:16:47.860885+00:00",
+        "dispatched_at": "2026-11-06T08:16:51.326196+00:00",
+        "lateness_seconds": 3.5,
+        "kind": "on_time"
+      },
+      "canonical_completions": [
+        "edb7e481853a4016a11a4012cc4b79dd"
+      ]
+    },
+    {
+      "id": "bd5c397e3ecd",
+      "name": "Cron delivery watchdog",
+      "prompt": "",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "cron_watchdog.py",
+      "no_agent": true,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 10,
+        "display": "every 10m"
+      },
+      "schedule_display": "every 10m",
+      "repeat": {
+        "times": null,
+        "completed": 2368
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-14T00:02:35.277891+00:00",
+      "next_run_at": "2026-11-06T09:29:51.893552+00:00",
+      "last_run_at": "2026-11-06T09:19:51.893552+00:00",
+      "last_status": "error",
+      "last_error": "Script exited with code 1\nstderr:\n2026-11-06 09:19:51,564 INFO Cron Watchdog started (direct Telegram API)\nTraceback (most recent call last):\n  File \"<string>\", line 16, in <module>\n    exec(code, main.__dict__)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 105, in <module>\n    main()\n    ~~~~^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 102, in main\n    check_and_retry()\n    ~~~~~~~~~~~~~~~^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 96, in check_and_retry\n    SENT_FLAG.parent.mkdir(parents=True, exist_ok=True)\n    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hermes/tools/python-3.14.9+202****1021-linux-x64/lib/python3.14/pathlib/__init__.py\", line 1011, in mkdir\n    os.mkdir(self, mode)\n    ~~~~~~~~^^^^^^^^^^^^\nFileExistsError: [Errno 17] File exists: '/opt/data/cache/scratch'",
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": {
+        "at": "2026-11-06T09:19:51.893552+00:00",
+        "detail": "Script exited with code 1\nstderr:\n2026-11-06 09:19:51,564 INFO Cron Watchdog started (direct Telegram API)\nTraceback (most recent call last):\n  File \"<string>\", line 16, in <module>\n    exec(code, main.__dict__)\n    ~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 105, in <module>\n    main()\n    ~~~~^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 102, in main\n    check_and_retry()\n    ~~~~~~~~~~~~~~~^^\n  File \"/opt/data/scripts/cron_watchdog.py\", line 96, in check_and_retry\n    SENT_FLAG.parent.mkdir(parents=True, exist_ok=True)\n    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hermes/tools/python-3.14.9+202****1021-linux-x64/lib/python3.14/pathlib/__init__.py\", line 1011, in mkdir\n    os.mkdir(self, mode)\n    ~~~~~~~~^^^^^^^^^^^^\nFileExistsError: [Errno 17] File exists: '/opt/data/cache/scratch'"
+      },
+      "failure_streak": 137,
+      "deliver": "local",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T09:18:51.573348+00:00",
+        "dispatched_at": "2026-11-06T09:19:51.349547+00:00",
+        "lateness_seconds": 59.8,
+        "kind": "on_time"
+      },
+      "fire_claim": null
+    },
+    {
+      "id": "8c66caf2229e",
+      "name": "memos-watch keepalive",
+      "prompt": "",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "memos-watch-keepalive.py",
+      "no_agent": true,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 5,
+        "display": "every 5m"
+      },
+      "schedule_display": "every 5m",
+      "repeat": {
+        "times": null,
+        "completed": 2125
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-25T05:44:14.016226+00:00",
+      "next_run_at": "2026-11-06T09:22:51.461520+00:00",
+      "last_run_at": "2026-11-06T09:17:51.461520+00:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": {
+        "at": "2026-11-05T13:47:18.056620+00:00",
+        "detail": "Script exited with code 1\nstdout:\nrestart FAILED: cannot read token: [Errno 13] Permission denied: '/opt/data/usememos.json'"
+      },
+      "failure_streak": 0,
+      "deliver": "local",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid 🚀",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "fire_claim": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T09:16:51.463012+00:00",
+        "dispatched_at": "2026-11-06T09:17:51.324097+00:00",
+        "lateness_seconds": 59.9,
+        "kind": "on_time"
+      }
+    },
+    {
+      "id": "024f528a9b57",
+      "name": "Moto G45 5G Minus Price Watch Indonesia",
+      "prompt": "Load the product-price-monitor skill. Search Tokopedia, Shopee, and OLX for used Motorola Moto G45 5G sold as minus (broken/cracked LCD, housing damage, functional units) under 1,000,000 IDR. Compare against the baseline price. If a new matching deal appears or price drops below 1M IDR, report the item, condition, price, and exact link. Otherwise, stay silent. ONLY physical/functional minus units; EXCLUDE scam listings, parts-only (LCD only, mesin only), mati total/mati, and bypass/frp-locked units. Focus Indonesia market.",
+      "skills": [
+        "product-price-monitor"
+      ],
+      "skill": "product-price-monitor",
+      "model": null,
+      "provider": "custom",
+      "base_url": "https://9router.devhamid.space/v1",
+      "script": null,
+      "no_agent": false,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 720,
+        "display": "every 720m"
+      },
+      "schedule_display": "every 720m",
+      "repeat": {
+        "times": null,
+        "completed": 12
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-10-31T03:43:25.293902+00:00",
+      "next_run_at": "2026-11-06T20:16:52.306667+00:00",
+      "last_run_at": "2026-11-06T08:20:13.512635+00:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": {
+        "at": "2026-11-06T08:16:52.306667+00:00",
+        "detail": "RuntimeError: Cron job '024f528a9b57' blocked for safety: base_url override requires an explicit provider. Set provider to a configured custom provider to use a custom endpoint."
+      },
+      "failure_streak": 0,
+      "deliver": "telegram:-1003628710660:10669",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid 🚀",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "fire_claim": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T08:16:33.809211+00:00",
+        "dispatched_at": "2026-11-06T08:16:51.326196+00:00",
+        "lateness_seconds": 17.5,
+        "kind": "on_time"
+      },
+      "canonical_completions": [
+        "86f6930ef5f14903b71c6bf92e5a1ec0"
+      ]
+    },
+    {
+      "id": "c2cfc542148c",
+      "name": "hermes_memos_sync.sh",
+      "prompt": "hermes_memos_sync.sh",
+      "skills": [],
+      "skill": null,
+      "model": null,
+      "provider": null,
+      "base_url": null,
+      "script": "hermes_memos_sync.sh",
+      "no_agent": true,
+      "monitor_script": null,
+      "monitor_url": null,
+      "monitor_state": null,
+      "context_from": null,
+      "schedule": {
+        "kind": "interval",
+        "minutes": 60,
+        "display": "every 60m"
+      },
+      "schedule_display": "every 60m",
+      "repeat": {
+        "times": null,
+        "completed": 1
+      },
+      "enabled": true,
+      "state": "scheduled",
+      "paused_at": null,
+      "paused_reason": null,
+      "created_at": "2026-11-06T08:18:51.734572+00:00",
+      "next_run_at": "2026-11-06T10:19:51.988098+00:00",
+      "last_run_at": "2026-11-06T09:19:51.988098+00:00",
+      "last_status": "ok",
+      "last_error": null,
+      "last_delivery_error": null,
+      "last_delivery_unverified": null,
+      "last_failure": null,
+      "failure_streak": 0,
+      "deliver": "local",
+      "origin": {
+        "platform": "telegram",
+        "chat_id": "410848670",
+        "chat_name": "Ahmad Syarwan Hamid 🚀",
+        "thread_id": null,
+        "user_id": "410848670",
+        "scope_id": null
+      },
+      "enabled_toolsets": null,
+      "workdir": null,
+      "last_dispatch": {
+        "scheduled_at": "2026-11-06T09:18:51.749772+00:00",
+        "dispatched_at": "2026-11-06T09:19:51.349547+00:00",
+        "lateness_seconds": 59.6,
+        "kind": "on_time"
+      },
+      "fire_claim": null
+    }
+  ],
+  "updated_at": "2026-11-06T09:20:52.499390+00:00"
+}
