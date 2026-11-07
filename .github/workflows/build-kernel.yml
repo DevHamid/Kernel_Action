@@ -356,6 +356,23 @@ jobs:
         fi
         rm -rf AnyKernel3/.git* AnyKernel3/README.md
 
+    - name: Disable Magisk preservation in AnyKernel3
+      if: env.CHECK_FILE_IS_OK == 'true'
+      run: |
+        cd $GITHUB_WORKSPACE/kernel_workspace/AnyKernel3
+        # ak3-core.sh tests the boot ramdisk currently on the device and, when
+        # it finds Magisk there, hexpatches the new kernel (skip_initramfs ->
+        # want_initramfs) and restores Magisk's env vars so "reflashing Magisk
+        # is not necessary". That silently resurrects Magisk on a Magisk-free
+        # kernel, so opt out explicitly.
+        if grep -q '^no_magisk_check=' anykernel.sh; then
+            echo "no_magisk_check already set, leaving as-is"
+        else
+            sed -i '/^patch_vbmeta_flag=auto;/a no_magisk_check=true;' anykernel.sh
+        fi
+        grep -n '^no_magisk_check=' anykernel.sh
+        grep -q '^no_magisk_check=true' anykernel.sh || { echo "Failed to set no_magisk_check"; exit 1; }
+
     - name: Make boot image
       if: env.HAVE_SOURCE_BOOT_IMAGE == 'true' && env.CHECK_FILE_IS_OK == 'true'
       run: |
